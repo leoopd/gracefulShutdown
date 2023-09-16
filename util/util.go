@@ -29,6 +29,12 @@ func FillingListAndSaving(list *string, shutdownCh chan os.Signal, wg *sync.Wait
 			return
 		default:
 		}
+		// Simulating error handling
+		if i == 100 {
+			log.Println("Some artificial error.")
+			return
+		}
+
 		id1.Id = strconv.Itoa(i)
 		id2, err := json.Marshal(id1)
 		if err != nil {
