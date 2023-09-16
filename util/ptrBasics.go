@@ -15,8 +15,8 @@ type ListJson struct {
 
 // Iterates a counter that fills the id os ListJson.Id and calls SavingList deferred.
 // Listens for a notification on shutdownCh prior to each iteration.
-func FillingListAndSaving(list *string, shutdownCh chan struct{}) {
-	path := "./pointer/ptrBasics/ptrBasicsOutput/output.txt"
+func FillingListAndSaving(list *string, shutdownCh chan os.Signal) {
+	path := "./gsOutput/output.txt"
 	var i int
 	var id1 ListJson
 	defer SavingList(list, path)

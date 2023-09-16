@@ -12,7 +12,7 @@ func main() {
 
 	var list string
 	// shutdownCh and wg are used to guarantee that the gofuncs can return.
-	var shutdownCh = make(chan struct{})
+	var shutdownCh = make(chan os.Signal, 1)
 	var wg = &sync.WaitGroup{}
 
 	wg.Add(1)
@@ -21,9 +21,6 @@ func main() {
 		gfShutdown.FillingListAndSaving(&list, shutdownCh)
 	}()
 
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt)
-	<-c
-	close(shutdownCh)
+	signal.Notify(shutdownCh, os.Interrupt)
 	wg.Wait()
 }
