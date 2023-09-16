@@ -8,10 +8,13 @@ import (
 	"strconv"
 )
 
+// Will be added to the list as a single line JSON: {"id":"0"},\n
 type ListJson struct {
 	Id string
 }
 
+// Iterates a counter that fills the id os ListJson.Id and calls SavingList deferred.
+// Listens for a notification on shutdownCh prior to each iteration.
 func FillingListAndSaving(list *string, shutdownCh chan struct{}) {
 	path := "./pointer/ptrBasics/ptrBasicsOutput/output.txt"
 	var i int
@@ -34,6 +37,7 @@ func FillingListAndSaving(list *string, shutdownCh chan struct{}) {
 	}
 }
 
+// Saves the produced list to the path specified.
 func SavingList(list *string, path string) {
 	fmt.Println("Initializing File Saving...")
 	f, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)

@@ -11,6 +11,7 @@ import (
 func main() {
 
 	var list string
+	// shutdownCh and wg are used to guarantee that the gofuncs can return.
 	var shutdownCh = make(chan struct{})
 	var wg = &sync.WaitGroup{}
 
