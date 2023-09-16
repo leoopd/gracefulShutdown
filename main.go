@@ -16,10 +16,7 @@ func main() {
 	var wg = &sync.WaitGroup{}
 
 	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		gfShutdown.FillingListAndSaving(&list, shutdownCh)
-	}()
+	go gfShutdown.FillingListAndSaving(&list, shutdownCh, wg)
 
 	signal.Notify(shutdownCh, os.Interrupt)
 	wg.Wait()

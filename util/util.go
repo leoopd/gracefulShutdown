@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"sync"
 )
 
 // Will be added to the list as a single line JSON: {"id":"0"},\n
@@ -15,10 +16,11 @@ type ListJson struct {
 
 // Iterates a counter that fills the id os ListJson.Id and calls SavingList deferred.
 // Listens for a notification on shutdownCh prior to each iteration.
-func FillingListAndSaving(list *string, shutdownCh chan os.Signal) {
+func FillingListAndSaving(list *string, shutdownCh chan os.Signal, wg *sync.WaitGroup) {
 	path := "./output/output.txt"
 	var i int
 	var id1 ListJson
+	defer wg.Done()
 	defer SavingList(list, path)
 
 	for {
