@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"sync"
+	"time"
 )
 
 // Will be added to the list as a single line JSON: {"id":"0"},\n
@@ -47,14 +48,16 @@ func FillingListAndSaving(list *string, shutdownCh chan os.Signal, wg *sync.Wait
 
 // Saves the produced list to the path specified.
 func SavingList(list *string, path string) {
-	fmt.Println("Initializing File Saving...")
+	fmt.Println("Saving File...")
 	f, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Println("Error opening the file: ", err)
+		return
 	}
 	defer f.Close()
-	if _, err := f.WriteString(*list); err != nil {
-		log.Println(err)
+	if _, err := f.WriteString(*list + fmt.Sprintf("Saved at: %v\n", time.Now())); err != nil {
+		log.Println("Error writing to the file: ", err)
+		return
 	}
 	fmt.Println("File saved successfully!")
 }
